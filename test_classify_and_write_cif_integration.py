@@ -218,38 +218,26 @@ _ndb_struct_ntc_step.auth_asym_id_2
 _ndb_struct_ntc_step.auth_seq_id_2
 _ndb_struct_ntc_step.PDB_ins_code_1
 _ndb_struct_ntc_step.PDB_ins_code_2
- 1    5jzq_A_DC.A_1_DG.A_2  1  1  A  1  DC  .  1  A  2  DG  A  A   1  A   2  .  .  
- 2    5jzq_A_DC.A_1_DG.B_2  1  1  A  1  DC  .  1  A  2  DG  B  A   1  A   2  .  .  
- 3    5jzq_A_DC.B_1_DG.A_2  1  1  A  1  DC  .  1  A  2  DG  A  A   1  A   2  .  .  
- 4    5jzq_A_DC.B_1_DG.B_2  1  1  A  1  DC  .  1  A  2  DG  B  A   1  A   2  .  .  
- 5    5jzq_A_DG.A_2_DC.A_3  1  1  A  2  DG  A  1  A  3  DC  A  A   2  A   3  .  .  
- 6    5jzq_A_DG.B_2_DC.A_3  1  1  A  2  DG  B  1  A  3  DC  A  A   2  A   3  .  .  
- 7    5jzq_A_DG.B_2_DC.B_3  1  1  A  2  DG  B  1  A  3  DC  B  A   2  A   3  .  .  
- 8    5jzq_A_DC.A_3_DG.A_4  1  1  A  3  DC  A  1  A  4  DG  .  A   3  A   4  .  .  
- 9    5jzq_A_DC.A_3_DG.B_4  1  1  A  3  DC  A  1  A  4  DG  .  A   3  A   4  .  .  
-10    5jzq_A_DC.B_3_DG.B_4  1  1  A  3  DC  B  1  A  4  DG  .  A   3  A   4  .  .  
-11    5jzq_A_DG.A_4_DC.A_5  1  1  A  4  DG  A  1  A  5  DC  .  A   4  A   5  .  .  
-12    5jzq_A_DG.A_4_DC.B_5  1  1  A  4  DG  A  1  A  5  DC  .  A   4  A   5  .  .  
-13    5jzq_A_DG.B_4_DC.A_5  1  1  A  4  DG  B  1  A  5  DC  .  A   4  A   5  .  .  
-14    5jzq_A_DG.B_4_DC.B_5  1  1  A  4  DG  B  1  A  5  DC  .  A   4  A   5  .  .  
-15      5jzq_A_DC.A_5_DG_6  1  1  A  5  DC  A  1  A  6  DG  .  A   5  A   6  .  .  
-16      5jzq_A_DC.B_5_DG_6  1  1  A  5  DC  B  1  A  6  DG  .  A   5  A   6  .  .  
-17    5jzq_B_DC.A_7_DG.A_8  1  1  B  1  DC  .  1  B  2  DG  .  B   7  B   8  .  .  
-18    5jzq_B_DC.B_7_DG.A_8  1  1  B  1  DC  .  1  B  2  DG  .  B   7  B   8  .  .  
-19    5jzq_B_DC.B_7_DG.B_8  1  1  B  1  DC  .  1  B  2  DG  .  B   7  B   8  .  .  
-20    5jzq_B_DG.A_8_DC.A_9  1  1  B  2  DG  A  1  B  3  DC  .  B   8  B   9  .  .  
-21    5jzq_B_DG.A_8_DC.B_9  1  1  B  2  DG  A  1  B  3  DC  .  B   8  B   9  .  .  
-22    5jzq_B_DG.B_8_DC.A_9  1  1  B  2  DG  B  1  B  3  DC  .  B   8  B   9  .  .  
-23    5jzq_B_DG.B_8_DC.B_9  1  1  B  2  DG  B  1  B  3  DC  .  B   8  B   9  .  .  
-24   5jzq_B_DC.A_9_DG.A_10  1  1  B  3  DC  A  1  B  4  DG  A  B   9  B  10  .  .  
-25   5jzq_B_DC.A_9_DG.B_10  1  1  B  3  DC  A  1  B  4  DG  B  B   9  B  10  .  .  
-26   5jzq_B_DC.B_9_DG.A_10  1  1  B  3  DC  B  1  B  4  DG  A  B   9  B  10  .  .  
-27   5jzq_B_DC.B_9_DG.B_10  1  1  B  3  DC  B  1  B  4  DG  B  B   9  B  10  .  .  
-28  5jzq_B_DG.A_10_DC.A_11  1  1  B  4  DG  A  1  B  5  DC  .  B  10  B  11  .  .  
-29  5jzq_B_DG.B_10_DC.B_11  1  1  B  4  DG  B  1  B  5  DC  .  B  10  B  11  .  .  
-30  5jzq_B_DC.A_11_DG.A_12  1  1  B  5  DC  A  1  B  6  DG  A  B  11  B  12  .  .  
-31  5jzq_B_DC.B_11_DG.A_12  1  1  B  5  DC  B  1  B  6  DG  A  B  11  B  12  .  .  
-32  5jzq_B_DC.B_11_DG.B_12  1  1  B  5  DC  B  1  B  6  DG  B  B  11  B  12  .  .  """
+ 1    5jzq_A_DC.A_1_DG.A_2  1  1  A  1  DC  A  1  A  2  DG  A  A   1  A   2  .  .  
+ 2    5jzq_A_DC.B_1_DG.B_2  1  1  A  1  DC  B  1  A  2  DG  B  A   1  A   2  .  .  
+ 3    5jzq_A_DG.A_2_DC.A_3  1  1  A  2  DG  A  1  A  3  DC  A  A   2  A   3  .  .  
+ 4    5jzq_A_DG.B_2_DC.B_3  1  1  A  2  DG  B  1  A  3  DC  B  A   2  A   3  .  .  
+ 5    5jzq_A_DC.A_3_DG.A_4  1  1  A  3  DC  A  1  A  4  DG  A  A   3  A   4  .  .  
+ 6    5jzq_A_DC.B_3_DG.B_4  1  1  A  3  DC  B  1  A  4  DG  B  A   3  A   4  .  .  
+ 7    5jzq_A_DG.A_4_DC.A_5  1  1  A  4  DG  A  1  A  5  DC  A  A   4  A   5  .  .  
+ 8    5jzq_A_DG.B_4_DC.B_5  1  1  A  4  DG  B  1  A  5  DC  B  A   4  A   5  .  .  
+ 9      5jzq_A_DC.A_5_DG_6  1  1  A  5  DC  A  1  A  6  DG  .  A   5  A   6  .  .  
+10      5jzq_A_DC.B_5_DG_6  1  1  A  5  DC  B  1  A  6  DG  .  A   5  A   6  .  .  
+11    5jzq_B_DC.A_7_DG.A_8  1  1  B  1  DC  A  1  B  2  DG  A  B   7  B   8  .  .  
+12    5jzq_B_DC.B_7_DG.B_8  1  1  B  1  DC  B  1  B  2  DG  B  B   7  B   8  .  .  
+13    5jzq_B_DG.A_8_DC.A_9  1  1  B  2  DG  A  1  B  3  DC  A  B   8  B   9  .  .  
+14    5jzq_B_DG.B_8_DC.B_9  1  1  B  2  DG  B  1  B  3  DC  B  B   8  B   9  .  .  
+15   5jzq_B_DC.A_9_DG.A_10  1  1  B  3  DC  A  1  B  4  DG  A  B   9  B  10  .  .  
+16   5jzq_B_DC.B_9_DG.B_10  1  1  B  3  DC  B  1  B  4  DG  B  B   9  B  10  .  .  
+17  5jzq_B_DG.A_10_DC.A_11  1  1  B  4  DG  A  1  B  5  DC  A  B  10  B  11  .  .  
+18  5jzq_B_DG.B_10_DC.B_11  1  1  B  4  DG  B  1  B  5  DC  B  B  10  B  11  .  .  
+19  5jzq_B_DC.A_11_DG.A_12  1  1  B  5  DC  A  1  B  6  DG  A  B  11  B  12  .  .  
+20  5jzq_B_DC.B_11_DG.B_12  1  1  B  5  DC  B  1  B  6  DG  B  B  11  B  12  .  .  """
 
 @pytest.mark.parametrize(
     "pdb_code,expected_values_minimal,expected_values_precise,expected_ntc_steps_table",
@@ -263,11 +251,11 @@ _ndb_struct_ntc_step.PDB_ins_code_2
             ntc_steps_table_3a3a
         ),
         ("5jzq", {
-            "_ndb_struct_ntc_overall.confal_score": 40,
-            "_ndb_struct_ntc_overall.confal_percentile": 40,
-            "_ndb_struct_ntc_overall.num_classified": 20
+            "_ndb_struct_ntc_overall.confal_score": 50,
+            "_ndb_struct_ntc_overall.confal_percentile": 50,
+            "_ndb_struct_ntc_overall.num_classified": 15
         }, {
-            "_ndb_struct_ntc_overall.num_steps": 32},
+            "_ndb_struct_ntc_overall.num_steps": 20},
             ntc_steps_table_5jzq
         ),
         ("9bkd", {
