@@ -87,6 +87,40 @@ def check_mmcif_table_columns(
                 assert list(row_actual) == list(row_expected), f"Mismatch in ntc_steps_table at row: {row_actual}"
 
 
+def check_dnatco_extended_mmcif(
+    output: str,
+    expected_values_minimal: dict,
+    expected_values_precise: dict,
+    expected_ntc_steps_table: str,
+):
+    assert output
+
+    # Check that the mmcif output contains the expected tags
+    block = output[0]
+    overall_tags = [
+        "entry_id",
+        "confal_score",
+        "confal_percentile",
+        "ntc_version",
+        "cana_version",
+        "num_steps",
+        "num_classified",
+        "num_unclassified",
+        "num_unclassified_rmsd_close",
+    ]
+    check_mmcif_overall_tags(block, overall_tags)
+
+    # Check tables and their columns
+    for table, columns in expected_loops.items():
+        check_mmcif_table_columns(block, table, columns, expected_ntc_steps_table)
+
+    # Check pairs with expected values
+    for tag, value in expected_values_minimal.items():
+        assert block.find_pair(tag)[1] >= str(value)
+    for tag, value in expected_values_precise.items():
+        assert block.find_pair(tag)[1] == str(value)
+
+
 ntc_steps_table_3a3a = """data_3A3A_expected
 #
 loop_
@@ -239,42 +273,160 @@ _ndb_struct_ntc_step.PDB_ins_code_2
 19  5jzq_B_DC.A_11_DG.A_12  1  1  B  5  DC  A  1  B  6  DG  A  B  11  B  12  .  .  
 20  5jzq_B_DC.B_11_DG.B_12  1  1  B  5  DC  B  1  B  6  DG  B  B  11  B  12  .  .  """
 
-@pytest.mark.parametrize(
-    "pdb_code,expected_values_minimal,expected_values_precise,expected_ntc_steps_table",
+
+param_vars = "pdb_code,expected_values_minimal,expected_values_precise,expected_ntc_steps_table,expected_restraint"
+param_vals = [
+    ("3a3a", {
+        "_ndb_struct_ntc_overall.confal_score": 50,
+        "_ndb_struct_ntc_overall.confal_percentile": 50,
+        "_ndb_struct_ntc_overall.num_classified": 60
+        }, {
+        "_ndb_struct_ntc_overall.num_steps": 85},
+        ntc_steps_table_3a3a,
+        "external torsion first chain A residue 1 ins . atom C5' next chain A residue 1 ins . atom C4' next chain A residue 1 ins . atom C3' next chain A residue 1 ins . atom O3'",
+    ),
+    ("5jzq", {
+        "_ndb_struct_ntc_overall.confal_score": 50,
+        "_ndb_struct_ntc_overall.confal_percentile": 50,
+        "_ndb_struct_ntc_overall.num_classified": 15
+    }, {
+        "_ndb_struct_ntc_overall.num_steps": 20},
+        ntc_steps_table_5jzq,
+        "external torsion first chain A residue 1 ins . atom C5' next chain A residue 1 ins . atom C4' next chain A residue 1 ins . atom C3' alt A next chain A residue 1 ins . atom O3' alt A value",
+    ),
+    ("9bkd", {
+        "_ndb_struct_ntc_overall.confal_score": 40,
+        "_ndb_struct_ntc_overall.confal_percentile": 40,
+        "_ndb_struct_ntc_overall.num_classified": 1000
+    }, {
+        "_ndb_struct_ntc_overall.num_steps": 1667},
+        "",
+        "# Restraint that would be a part of step 9bkd_A_U_1_A_2 is unavailable",
+    ),
+]
+param_ids = ['3A3A', '5JZQ', '9BKD']
+
+expected_loops = {
+    "_ndb_struct_ntc_step.":
     [
-        ("3a3a", {
-            "_ndb_struct_ntc_overall.confal_score": 50,
-            "_ndb_struct_ntc_overall.confal_percentile": 50,
-            "_ndb_struct_ntc_overall.num_classified": 60
-            }, {
-            "_ndb_struct_ntc_overall.num_steps": 85},
-            ntc_steps_table_3a3a
-        ),
-        ("5jzq", {
-            "_ndb_struct_ntc_overall.confal_score": 50,
-            "_ndb_struct_ntc_overall.confal_percentile": 50,
-            "_ndb_struct_ntc_overall.num_classified": 15
-        }, {
-            "_ndb_struct_ntc_overall.num_steps": 20},
-            ntc_steps_table_5jzq
-        ),
-        ("9bkd", {
-            "_ndb_struct_ntc_overall.confal_score": 40,
-            "_ndb_struct_ntc_overall.confal_percentile": 40,
-            "_ndb_struct_ntc_overall.num_classified": 1000
-        }, {
-            "_ndb_struct_ntc_overall.num_steps": 1667},
-            ""
-        ),
+        "id",
+        "name",
+        "PDB_model_number",
+        "label_entity_id_1",
+        "label_asym_id_1",
+        "label_seq_id_1",
+        "label_comp_id_1",
+        "label_alt_id_1",
+        "label_entity_id_2",
+        "label_asym_id_2",
+        "label_seq_id_2",
+        "label_comp_id_2",
+        "label_alt_id_2",
+        "auth_asym_id_1",
+        "auth_seq_id_1",
+        "auth_asym_id_2",
+        "auth_seq_id_2",
+        "PDB_ins_code_1",
+        "PDB_ins_code_2",
     ],
-    ids=['3A3A', '5JZQ', '9BKD']
+    "_ndb_struct_ntc_step_summary.":
+    [
+        "step_id",
+        "assigned_CANA",
+        "assigned_NtC",
+        "confal_score",
+        "euclidean_distance_NtC_ideal",
+        "cartesian_rmsd_closest_NtC_representative",
+        "closest_CANA",
+        "closest_NtC",
+        "closest_step_golden",
+    ],
+    "_ndb_struct_ntc_step_parameters.":
+    [
+        "step_id",
+        "tor_delta_1",
+        "tor_epsilon_1",
+        "tor_zeta_1",
+        "tor_alpha_2",
+        "tor_beta_2",
+        "tor_gamma_2",
+        "tor_delta_2",
+        "tor_chi_1",
+        "tor_chi_2",
+        "dist_NN",
+        "dist_CC",
+        "tor_NCCN",
+        "diff_tor_delta_1",
+        "diff_tor_epsilon_1",
+        "diff_tor_zeta_1",
+        "diff_tor_alpha_2",
+        "diff_tor_beta_2",
+        "diff_tor_gamma_2",
+        "diff_tor_delta_2",
+        "diff_tor_chi_1",
+        "diff_tor_chi_2",
+        "diff_dist_NN",
+        "diff_dist_CC",
+        "diff_tor_NCCN",
+        "confal_tor_delta_1",
+        "confal_tor_epsilon_1",
+        "confal_tor_zeta_1",
+        "confal_tor_alpha_2",
+        "confal_tor_beta_2",
+        "confal_tor_gamma_2",
+        "confal_tor_delta_2",
+        "confal_tor_chi_1",
+        "confal_tor_chi_2",
+        "confal_dist_NN",
+        "confal_dist_CC",
+        "confal_tor_NCCN",
+        "details"
+    ],
+    "_ndb_struct_sugar_step_parameters.":
+    [
+        "step_id",
+        "P_1",
+        "tau_1",
+        "Pn_1",
+        "P_2",
+        "tau_2",
+        "Pn_2",
+        "nu_1_1",
+        "nu_1_2",
+        "nu_1_3",
+        "nu_1_4",
+        "nu_1_5",
+        "nu_2_1",
+        "nu_2_2",
+        "nu_2_3",
+        "nu_2_4",
+        "nu_2_5",
+        "diff_nu_1_1",
+        "diff_nu_1_2",
+        "diff_nu_1_3",
+        "diff_nu_1_4",
+        "diff_nu_1_5",
+        "diff_nu_2_1",
+        "diff_nu_2_2",
+        "diff_nu_2_3",
+        "diff_nu_2_4",
+        "diff_nu_2_5"
+    ],
+}
+
+@pytest.mark.parametrize(
+    param_vars,
+    param_vals,
+    ids=param_ids
 )
 def test_classify_and_write_cif(
-        pdb_code: str,
-        expected_values_minimal: dict,
-        expected_values_precise: dict,
-        expected_ntc_steps_table: str
-    ):
+    pdb_code: str,
+    expected_values_minimal: dict,
+    expected_values_precise: dict,
+    expected_ntc_steps_table: str,
+    expected_restraint: str,
+):
+    expected_restraint = 0  # Not generated and tested here
     executable = "classify_and_write_cif"
     with download(rcsb_mmcif(pdb_code)) as ciffile:
         result = subprocess.run(
@@ -287,136 +439,45 @@ def test_classify_and_write_cif(
     assert result.returncode == 0
     assert result.stderr == ""
     output = gemmi.cif.read_string(result.stdout)
-    assert output
+    check_dnatco_extended_mmcif(output, expected_values_minimal, expected_values_precise,
+                                expected_ntc_steps_table)
 
-    # Check that the mmcif output contains the expected tags
-    block = output[0]
-    overall_tags = [
-        "entry_id",
-        "confal_score",
-        "confal_percentile",
-        "ntc_version",
-        "cana_version",
-        "num_steps",
-        "num_classified",
-        "num_unclassified",
-        "num_unclassified_rmsd_close",
-    ]
-    check_mmcif_overall_tags(block, overall_tags)
 
-    expected_loops = {
-        "_ndb_struct_ntc_step.":
-        [
-            "id",
-            "name",
-            "PDB_model_number",
-            "label_entity_id_1",
-            "label_asym_id_1",
-            "label_seq_id_1",
-            "label_comp_id_1",
-            "label_alt_id_1",
-            "label_entity_id_2",
-            "label_asym_id_2",
-            "label_seq_id_2",
-            "label_comp_id_2",
-            "label_alt_id_2",
-            "auth_asym_id_1",
-            "auth_seq_id_1",
-            "auth_asym_id_2",
-            "auth_seq_id_2",
-            "PDB_ins_code_1",
-            "PDB_ins_code_2",
-        ],
-        "_ndb_struct_ntc_step_summary.":
-        [
-            "step_id",
-            "assigned_CANA",
-            "assigned_NtC",
-            "confal_score",
-            "euclidean_distance_NtC_ideal",
-            "cartesian_rmsd_closest_NtC_representative",
-            "closest_CANA",
-            "closest_NtC",
-            "closest_step_golden",
-        ],
-        "_ndb_struct_ntc_step_parameters.":
-        [
-            "step_id",
-            "tor_delta_1",
-            "tor_epsilon_1",
-            "tor_zeta_1",
-            "tor_alpha_2",
-            "tor_beta_2",
-            "tor_gamma_2",
-            "tor_delta_2",
-            "tor_chi_1",
-            "tor_chi_2",
-            "dist_NN",
-            "dist_CC",
-            "tor_NCCN",
-            "diff_tor_delta_1",
-            "diff_tor_epsilon_1",
-            "diff_tor_zeta_1",
-            "diff_tor_alpha_2",
-            "diff_tor_beta_2",
-            "diff_tor_gamma_2",
-            "diff_tor_delta_2",
-            "diff_tor_chi_1",
-            "diff_tor_chi_2",
-            "diff_dist_NN",
-            "diff_dist_CC",
-            "diff_tor_NCCN",
-            "confal_tor_delta_1",
-            "confal_tor_epsilon_1",
-            "confal_tor_zeta_1",
-            "confal_tor_alpha_2",
-            "confal_tor_beta_2",
-            "confal_tor_gamma_2",
-            "confal_tor_delta_2",
-            "confal_tor_chi_1",
-            "confal_tor_chi_2",
-            "confal_dist_NN",
-            "confal_dist_CC",
-            "confal_tor_NCCN",
-            "details"
-        ],
-        "_ndb_struct_sugar_step_parameters.":
-        [
-            "step_id",
-            "P_1",
-            "tau_1",
-            "Pn_1",
-            "P_2",
-            "tau_2",
-            "Pn_2",
-            "nu_1_1",
-            "nu_1_2",
-            "nu_1_3",
-            "nu_1_4",
-            "nu_1_5",
-            "nu_2_1",
-            "nu_2_2",
-            "nu_2_3",
-            "nu_2_4",
-            "nu_2_5",
-            "diff_nu_1_1",
-            "diff_nu_1_2",
-            "diff_nu_1_3",
-            "diff_nu_1_4",
-            "diff_nu_1_5",
-            "diff_nu_2_1",
-            "diff_nu_2_2",
-            "diff_nu_2_3",
-            "diff_nu_2_4",
-            "diff_nu_2_5"
-        ],
-    }
-    # Check tables and their columns
-    for table, columns in expected_loops.items():
-        check_mmcif_table_columns(block, table, columns, expected_ntc_steps_table)
+@pytest.mark.parametrize(
+    param_vars,
+    param_vals,
+    ids=param_ids
+)
+def test_dnatco_nodejs(
+    pdb_code: str,
+    expected_values_minimal: dict,
+    expected_values_precise: dict,
+    expected_ntc_steps_table: str,
+    expected_restraint: str,
+):
+    executable = "dnatco"
+    with download(rcsb_mmcif(pdb_code)) as ciffile:
+        result = subprocess.run(
+            [str(executable),
+             "--coords", str(ciffile),
+             "--outputDir", ".",
+             "--extendedCIF",
+             "--refmacRestraints",
+             "--restraintsRmsd", "0.5",
+             "--restraintsSigmaFactor", "1",
+             "--prefix", f"{pdb_code}_dnatco"
+             ],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
 
-    # Check pairs with expected values
-    for tag, value in expected_values_minimal.items():
-        assert block.find_pair(tag)[1] >= str(value)
-    for tag, value in expected_values_precise.items():
-        assert block.find_pair(tag)[1] == str(value)
+    assert result.returncode == 0
+    assert result.stderr == ""
+    output = gemmi.cif.read_file(f"{pdb_code}_dnatco_extended.cif")
+    check_dnatco_extended_mmcif(output, expected_values_minimal, expected_values_precise,
+                                expected_ntc_steps_table)
+    assert Path(f"{pdb_code}_dnatco_restraints_refmac.txt").exists()
+    with open(f"{pdb_code}_dnatco_restraints_refmac.txt", "r") as f:
+        restraints = f.readlines()
+        assert expected_restraint in restraints[0]
